@@ -1,0 +1,227 @@
+<templateSet group="Patrones GoF">
+  <template name="singleton" value="class $CLASE$ {&#10;    private static final $CLASE$ INSTANCIA = new $CLASE$();&#10;    private $CLASE$() { }&#10;    static $CLASE$ getInstancia() { return INSTANCIA; }&#10;    $END$&#10;}" description="Singleton" toReformat="true" toShortenFQNames="true">
+    <variable name="CLASE" expression="" defaultValue="&quot;Configuracion&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="factory" value="interface $PRODUCTO$ { void $OP$(); }&#10;class $CONCRETO$ implements $PRODUCTO$ { public void $OP$() { } }&#10;abstract class $CREADOR$ {&#10;    abstract $PRODUCTO$ crear();&#10;    void usar() { crear().$OP$(); }&#10;}&#10;class $CREADORC$ extends $CREADOR$ {&#10;    $PRODUCTO$ crear() { return new $CONCRETO$(); }&#10;}&#10;$END$" description="Factory Method" toReformat="true" toShortenFQNames="true">
+    <variable name="PRODUCTO" expression="" defaultValue="&quot;Producto&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;operar&quot;" alwaysStopAt="true" />
+    <variable name="CONCRETO" expression="" defaultValue="&quot;ProductoA&quot;" alwaysStopAt="true" />
+    <variable name="CREADOR" expression="" defaultValue="&quot;Creador&quot;" alwaysStopAt="true" />
+    <variable name="CREADORC" expression="" defaultValue="&quot;CreadorA&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="absfactory" value="interface $PA$ { }&#10;interface $PB$ { }&#10;interface $FABRICA$ { $PA$ crear$PA$(); $PB$ crear$PB$(); }&#10;class $PA1$ implements $PA$ { }&#10;class $PB1$ implements $PB$ { }&#10;class $FABRICA1$ implements $FABRICA$ {&#10;    public $PA$ crear$PA$() { return new $PA1$(); }&#10;    public $PB$ crear$PB$() { return new $PB1$(); }&#10;}&#10;$END$" description="Abstract Factory" toReformat="true" toShortenFQNames="true">
+    <variable name="PA" expression="" defaultValue="&quot;ProductoA&quot;" alwaysStopAt="true" />
+    <variable name="PB" expression="" defaultValue="&quot;ProductoB&quot;" alwaysStopAt="true" />
+    <variable name="FABRICA" expression="" defaultValue="&quot;Fabrica&quot;" alwaysStopAt="true" />
+    <variable name="PA1" expression="" defaultValue="&quot;ProductoA1&quot;" alwaysStopAt="true" />
+    <variable name="PB1" expression="" defaultValue="&quot;ProductoB1&quot;" alwaysStopAt="true" />
+    <variable name="FABRICA1" expression="" defaultValue="&quot;Fabrica1&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="builder" value="class $PRODUCTO$ { String $A$; int $B$; }&#10;class $BUILDER$ {&#10;    private final $PRODUCTO$ p = new $PRODUCTO$();&#10;    $BUILDER$(String $A$) { p.$A$ = $A$; }&#10;    $BUILDER$ $B$(int $B$) { p.$B$ = $B$; return this; }&#10;    $PRODUCTO$ build() { return p; }&#10;}&#10;class $DIRECTOR$ {&#10;    $PRODUCTO$ $PREDEF$() { return new $BUILDER$(&quot;x&quot;).$B$(1).build(); }&#10;}&#10;$END$" description="Builder + Director" toReformat="true" toShortenFQNames="true">
+    <variable name="PRODUCTO" expression="" defaultValue="&quot;Paquete&quot;" alwaysStopAt="true" />
+    <variable name="A" expression="" defaultValue="&quot;destino&quot;" alwaysStopAt="false" />
+    <variable name="B" expression="" defaultValue="&quot;noches&quot;" alwaysStopAt="false" />
+    <variable name="BUILDER" expression="" defaultValue="&quot;PaqueteBuilder&quot;" alwaysStopAt="true" />
+    <variable name="DIRECTOR" expression="" defaultValue="&quot;DirectorPaquetes&quot;" alwaysStopAt="true" />
+    <variable name="PREDEF" expression="" defaultValue="&quot;escapada&quot;" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="prototype" value="class $CLASE$ {&#10;    String $A$;&#10;    int $B$;&#10;    $CLASE$ clonar() {&#10;        $CLASE$ c = new $CLASE$();&#10;        c.$A$ = $A$; c.$B$ = $B$;&#10;        return c;&#10;    }&#10;}&#10;$END$" description="Prototype" toReformat="true" toShortenFQNames="true">
+    <variable name="CLASE" expression="" defaultValue="&quot;Figura&quot;" alwaysStopAt="true" />
+    <variable name="A" expression="" defaultValue="&quot;nombre&quot;" alwaysStopAt="false" />
+    <variable name="B" expression="" defaultValue="&quot;x&quot;" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="adapter" value="interface $TARGET$ { String $OP$(); }&#10;class $ADAPTEE$ { String $OPEXT$() { return &quot;&quot;; } }&#10;class $ADAPTER$ implements $TARGET$ {&#10;    private final $ADAPTEE$ a = new $ADAPTEE$();&#10;    public String $OP$() { return a.$OPEXT$(); }&#10;}&#10;$END$" description="Adapter" toReformat="true" toShortenFQNames="true">
+    <variable name="TARGET" expression="" defaultValue="&quot;Target&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;operar&quot;" alwaysStopAt="true" />
+    <variable name="ADAPTEE" expression="" defaultValue="&quot;ServicioExterno&quot;" alwaysStopAt="true" />
+    <variable name="OPEXT" expression="" defaultValue="&quot;operarExterno&quot;" alwaysStopAt="true" />
+    <variable name="ADAPTER" expression="" defaultValue="&quot;Adaptador&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="bridge" value="interface $IMPL$ { void $OP$(); }&#10;class $IMPLA$ implements $IMPL$ { public void $OP$() { } }&#10;abstract class $ABS$ {&#10;    protected $IMPL$ impl;&#10;    $ABS$($IMPL$ impl) { this.impl = impl; }&#10;    abstract void $OPA$();&#10;}&#10;class $REF$ extends $ABS$ {&#10;    $REF$($IMPL$ impl) { super(impl); }&#10;    void $OPA$() { impl.$OP$(); }&#10;}&#10;$END$" description="Bridge" toReformat="true" toShortenFQNames="true">
+    <variable name="IMPL" expression="" defaultValue="&quot;Implementador&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;operarImpl&quot;" alwaysStopAt="true" />
+    <variable name="IMPLA" expression="" defaultValue="&quot;ImplementadorA&quot;" alwaysStopAt="true" />
+    <variable name="ABS" expression="" defaultValue="&quot;Abstraccion&quot;" alwaysStopAt="true" />
+    <variable name="OPA" expression="" defaultValue="&quot;operar&quot;" alwaysStopAt="true" />
+    <variable name="REF" expression="" defaultValue="&quot;AbstraccionRefinada&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="composite" value="interface $COMP$ { int $OP$(); }&#10;class $HOJA$ implements $COMP$ { public int $OP$() { return 0; } }&#10;class $COMPUESTO$ implements $COMP$ {&#10;    private final java.util.List&lt;$COMP$&gt; hijos = new java.util.ArrayList&lt;&gt;();&#10;    $COMPUESTO$ agregar($COMP$ c) { hijos.add(c); return this; }&#10;    public int $OP$() {&#10;        int t = 0;&#10;        for ($COMP$ c : hijos) t += c.$OP$();&#10;        return t;&#10;    }&#10;}&#10;$END$" description="Composite" toReformat="true" toShortenFQNames="true">
+    <variable name="COMP" expression="" defaultValue="&quot;Componente&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;tamanio&quot;" alwaysStopAt="true" />
+    <variable name="HOJA" expression="" defaultValue="&quot;Hoja&quot;" alwaysStopAt="true" />
+    <variable name="COMPUESTO" expression="" defaultValue="&quot;Compuesto&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="decorator" value="interface $COMP$ { String $OP$(); }&#10;class $BASE$ implements $COMP$ { public String $OP$() { return &quot;base&quot;; } }&#10;class $DECO$ implements $COMP$ {&#10;    private final $COMP$ c;&#10;    $DECO$($COMP$ c) { this.c = c; }&#10;    public String $OP$() { return c.$OP$() + &quot; + extra&quot;; }&#10;}&#10;$END$" description="Decorator" toReformat="true" toShortenFQNames="true">
+    <variable name="COMP" expression="" defaultValue="&quot;Componente&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;detalle&quot;" alwaysStopAt="true" />
+    <variable name="BASE" expression="" defaultValue="&quot;ComponenteBase&quot;" alwaysStopAt="true" />
+    <variable name="DECO" expression="" defaultValue="&quot;Decorador&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="facade" value="class $SUB1$ { void $OP1$() { } }&#10;class $SUB2$ { void $OP2$() { } }&#10;class $FACHADA$ {&#10;    private final $SUB1$ s1 = new $SUB1$();&#10;    private final $SUB2$ s2 = new $SUB2$();&#10;    void $OP$() { s1.$OP1$(); s2.$OP2$(); }&#10;}&#10;$END$" description="Facade" toReformat="true" toShortenFQNames="true">
+    <variable name="SUB1" expression="" defaultValue="&quot;Subsistema1&quot;" alwaysStopAt="true" />
+    <variable name="OP1" expression="" defaultValue="&quot;paso1&quot;" alwaysStopAt="false" />
+    <variable name="SUB2" expression="" defaultValue="&quot;Subsistema2&quot;" alwaysStopAt="true" />
+    <variable name="OP2" expression="" defaultValue="&quot;paso2&quot;" alwaysStopAt="false" />
+    <variable name="FACHADA" expression="" defaultValue="&quot;Fachada&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;ejecutar&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="flyweight" value="class $FLY$ {&#10;    final String $INTR$;&#10;    $FLY$(String $INTR$) { this.$INTR$ = $INTR$; }&#10;    void $OP$(String $EXTR$) { }&#10;}&#10;class $FABRICA$ {&#10;    private final java.util.Map&lt;String, $FLY$&gt; cache = new java.util.HashMap&lt;&gt;();&#10;    $FLY$ obtener(String $INTR$) { return cache.computeIfAbsent($INTR$, $FLY$::new); }&#10;}&#10;$END$" description="Flyweight + Factory" toReformat="true" toShortenFQNames="true">
+    <variable name="FLY" expression="" defaultValue="&quot;Texto&quot;" alwaysStopAt="true" />
+    <variable name="INTR" expression="" defaultValue="&quot;contenido&quot;" alwaysStopAt="false" />
+    <variable name="OP" expression="" defaultValue="&quot;enviarA&quot;" alwaysStopAt="true" />
+    <variable name="EXTR" expression="" defaultValue="&quot;destino&quot;" alwaysStopAt="false" />
+    <variable name="FABRICA" expression="" defaultValue="&quot;FabricaTextos&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="proxy" value="interface $SUBJECT$ { String $OP$(String $P$); }&#10;class $REAL$ implements $SUBJECT$ { public String $OP$(String $P$) { return &quot;ok&quot;; } }&#10;class $PROXY$ implements $SUBJECT$ {&#10;    private final $SUBJECT$ real;&#10;    $PROXY$($SUBJECT$ real) { this.real = real; }&#10;    public String $OP$(String $P$) {&#10;        if (!($COND$)) return &quot;Rechazado&quot;;&#10;        return real.$OP$($P$);&#10;    }&#10;}&#10;$END$" description="Proxy" toReformat="true" toShortenFQNames="true">
+    <variable name="SUBJECT" expression="" defaultValue="&quot;Servicio&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;operar&quot;" alwaysStopAt="true" />
+    <variable name="P" expression="" defaultValue="&quot;dni&quot;" alwaysStopAt="false" />
+    <variable name="REAL" expression="" defaultValue="&quot;ServicioReal&quot;" alwaysStopAt="true" />
+    <variable name="PROXY" expression="" defaultValue="&quot;ServicioProxy&quot;" alwaysStopAt="true" />
+    <variable name="COND" expression="" defaultValue="&quot;true&quot;" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="chain" value="abstract class $HANDLER$ {&#10;    private $HANDLER$ siguiente;&#10;    $HANDLER$ setSiguiente($HANDLER$ s) { siguiente = s; return s; }&#10;    String manejar(int $P$) {&#10;        if (puede($P$)) return procesar($P$);&#10;        return siguiente != null ? siguiente.manejar($P$) : &quot;Sin manejar&quot;;&#10;    }&#10;    abstract boolean puede(int $P$);&#10;    abstract String procesar(int $P$);&#10;}&#10;class $CONC$ extends $HANDLER$ {&#10;    boolean puede(int $P$) { return $COND$; }&#10;    String procesar(int $P$) { return &quot;$CONC$&quot;; }&#10;}&#10;$END$" description="Chain of Responsibility" toReformat="true" toShortenFQNames="true">
+    <variable name="HANDLER" expression="" defaultValue="&quot;Manejador&quot;" alwaysStopAt="true" />
+    <variable name="P" expression="" defaultValue="&quot;monto&quot;" alwaysStopAt="false" />
+    <variable name="CONC" expression="" defaultValue="&quot;ManejadorA&quot;" alwaysStopAt="true" />
+    <variable name="COND" expression="" defaultValue="&quot;true&quot;" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="command" value="interface $CMD$ { void ejecutar(); void deshacer(); }&#10;class $RECEIVER$ { void $ACCION$() { } }&#10;class $CCONC$ implements $CMD$ {&#10;    private final $RECEIVER$ r;&#10;    $CCONC$($RECEIVER$ r) { this.r = r; }&#10;    public void ejecutar() { r.$ACCION$(); }&#10;    public void deshacer() { }&#10;}&#10;class $INVOKER$ {&#10;    private final java.util.Deque&lt;$CMD$&gt; cola = new java.util.ArrayDeque&lt;&gt;();&#10;    void agregar($CMD$ c) { cola.add(c); }&#10;    void deshacer() { cola.removeLast(); }&#10;    void ejecutarTodo() { while (!cola.isEmpty()) cola.poll().ejecutar(); }&#10;}&#10;$END$" description="Command + Invoker" toReformat="true" toShortenFQNames="true">
+    <variable name="CMD" expression="" defaultValue="&quot;Orden&quot;" alwaysStopAt="true" />
+    <variable name="RECEIVER" expression="" defaultValue="&quot;Unidad&quot;" alwaysStopAt="true" />
+    <variable name="ACCION" expression="" defaultValue="&quot;mover&quot;" alwaysStopAt="false" />
+    <variable name="CCONC" expression="" defaultValue="&quot;Mover&quot;" alwaysStopAt="true" />
+    <variable name="INVOKER" expression="" defaultValue="&quot;Partida&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="iterator" value="interface $ITER$ { boolean hayMas(); $ELEM$ siguiente(); }&#10;class $CITER$ implements $ITER$ {&#10;    private final java.util.List&lt;$ELEM$&gt; lista;&#10;    private int i;&#10;    $CITER$(java.util.List&lt;$ELEM$&gt; lista) { this.lista = lista; }&#10;    public boolean hayMas() { return i &lt; lista.size(); }&#10;    public $ELEM$ siguiente() { return lista.get(i++); }&#10;}&#10;class $AGREGADO$ {&#10;    java.util.List&lt;$ELEM$&gt; lista = new java.util.ArrayList&lt;&gt;();&#10;    $ITER$ iterador() { return new $CITER$(lista); }&#10;}&#10;$END$" description="Iterator + Aggregate" toReformat="true" toShortenFQNames="true">
+    <variable name="ITER" expression="" defaultValue="&quot;Iterador&quot;" alwaysStopAt="true" />
+    <variable name="ELEM" expression="" defaultValue="&quot;String&quot;" alwaysStopAt="true" />
+    <variable name="CITER" expression="" defaultValue="&quot;IteradorLista&quot;" alwaysStopAt="true" />
+    <variable name="AGREGADO" expression="" defaultValue="&quot;Coleccion&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="mediator" value="class $MEDIADOR$ {&#10;    private final java.util.List&lt;$COLEGA$&gt; colegas = new java.util.ArrayList&lt;&gt;();&#10;    void registrar($COLEGA$ c) { colegas.add(c); }&#10;    void enviar($COLEGA$ de, String msg) {&#10;        for ($COLEGA$ c : colegas) if (c != de) c.recibir(msg);&#10;    }&#10;}&#10;class $COLEGA$ {&#10;    private final $MEDIADOR$ m;&#10;    $COLEGA$($MEDIADOR$ m) { this.m = m; m.registrar(this); }&#10;    void enviar(String msg) { m.enviar(this, msg); }&#10;    void recibir(String msg) { System.out.println(msg); }&#10;}&#10;$END$" description="Mediator + Colleague" toReformat="true" toShortenFQNames="true">
+    <variable name="MEDIADOR" expression="" defaultValue="&quot;Sala&quot;" alwaysStopAt="true" />
+    <variable name="COLEGA" expression="" defaultValue="&quot;Usuario&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="memento" value="class $ORIG$ {&#10;    int $ESTADO$;&#10;    $MEMENTO$ guardar() { return new $MEMENTO$($ESTADO$); }&#10;    void restaurar($MEMENTO$ m) { $ESTADO$ = m.$ESTADO$; }&#10;    static class $MEMENTO$ {&#10;        private final int $ESTADO$;&#10;        $MEMENTO$(int $ESTADO$) { this.$ESTADO$ = $ESTADO$; }&#10;    }&#10;}&#10;class $CARETAKER$ { $ORIG$.$MEMENTO$ ultimo; }&#10;$END$" description="Memento + Caretaker" toReformat="true" toShortenFQNames="true">
+    <variable name="ORIG" expression="" defaultValue="&quot;Heroe&quot;" alwaysStopAt="true" />
+    <variable name="ESTADO" expression="" defaultValue="&quot;vida&quot;" alwaysStopAt="false" />
+    <variable name="MEMENTO" expression="" defaultValue="&quot;Memento&quot;" alwaysStopAt="true" />
+    <variable name="CARETAKER" expression="" defaultValue="&quot;Mundo&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="observer" value="interface $OBS$ { void actualizar($TIPO$ $DATO$); }&#10;class $SUBJECT$ {&#10;    private final java.util.List&lt;$OBS$&gt; observadores = new java.util.ArrayList&lt;&gt;();&#10;    void conectar($OBS$ o) { observadores.add(o); }&#10;    void desconectar($OBS$ o) { observadores.remove(o); }&#10;    void notificar($TIPO$ $DATO$) { for ($OBS$ o : observadores) o.actualizar($DATO$); }&#10;}&#10;class $CONC$ implements $OBS$ {&#10;    public void actualizar($TIPO$ $DATO$) { }&#10;}&#10;$END$" description="Observer" toReformat="true" toShortenFQNames="true">
+    <variable name="OBS" expression="" defaultValue="&quot;Observador&quot;" alwaysStopAt="true" />
+    <variable name="TIPO" expression="" defaultValue="&quot;String&quot;" alwaysStopAt="false" />
+    <variable name="DATO" expression="" defaultValue="&quot;dato&quot;" alwaysStopAt="false" />
+    <variable name="SUBJECT" expression="" defaultValue="&quot;Estacion&quot;" alwaysStopAt="true" />
+    <variable name="CONC" expression="" defaultValue="&quot;Pantalla&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="state" value="interface $ESTADO$ { void $OP$($CTX$ c); }&#10;class $CTX$ {&#10;    $ESTADO$ estado = new $E1$();&#10;    void $OP$() { estado.$OP$(this); }&#10;}&#10;class $E1$ implements $ESTADO$ { public void $OP$($CTX$ c) { c.estado = new $E2$(); } }&#10;class $E2$ implements $ESTADO$ { public void $OP$($CTX$ c) { c.estado = new $E1$(); } }&#10;$END$" description="State + Context" toReformat="true" toShortenFQNames="true">
+    <variable name="ESTADO" expression="" defaultValue="&quot;Estado&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;avanzar&quot;" alwaysStopAt="true" />
+    <variable name="CTX" expression="" defaultValue="&quot;Ticket&quot;" alwaysStopAt="true" />
+    <variable name="E1" expression="" defaultValue="&quot;Abierto&quot;" alwaysStopAt="true" />
+    <variable name="E2" expression="" defaultValue="&quot;Cerrado&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="strategy" value="interface $STR$ { double $OP$(double $P$); }&#10;class $S1$ implements $STR$ { public double $OP$(double $P$) { return $P$; } }&#10;class $S2$ implements $STR$ { public double $OP$(double $P$) { return $P$; } }&#10;class $CTX$ {&#10;    private $STR$ estrategia;&#10;    $CTX$($STR$ e) { estrategia = e; }&#10;    double ejecutar(double $P$) { return estrategia.$OP$($P$); }&#10;}&#10;$END$" description="Strategy + Context" toReformat="true" toShortenFQNames="true">
+    <variable name="STR" expression="" defaultValue="&quot;Plan&quot;" alwaysStopAt="true" />
+    <variable name="OP" expression="" defaultValue="&quot;cobrar&quot;" alwaysStopAt="true" />
+    <variable name="P" expression="" defaultValue="&quot;minutos&quot;" alwaysStopAt="false" />
+    <variable name="S1" expression="" defaultValue="&quot;PorHora&quot;" alwaysStopAt="true" />
+    <variable name="S2" expression="" defaultValue="&quot;TarifaFija&quot;" alwaysStopAt="true" />
+    <variable name="CTX" expression="" defaultValue="&quot;Estadia&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="template" value="abstract class $CLASE$ {&#10;    final void $PLANTILLA$() { $P1$(); $P2$(); }&#10;    abstract void $P1$();&#10;    abstract void $P2$();&#10;}&#10;class $CONC$ extends $CLASE$ {&#10;    void $P1$() { }&#10;    void $P2$() { }&#10;}&#10;$END$" description="Template Method" toReformat="true" toShortenFQNames="true">
+    <variable name="CLASE" expression="" defaultValue="&quot;Pipeline&quot;" alwaysStopAt="true" />
+    <variable name="PLANTILLA" expression="" defaultValue="&quot;ejecutar&quot;" alwaysStopAt="true" />
+    <variable name="P1" expression="" defaultValue="&quot;compilar&quot;" alwaysStopAt="false" />
+    <variable name="P2" expression="" defaultValue="&quot;probar&quot;" alwaysStopAt="false" />
+    <variable name="CONC" expression="" defaultValue="&quot;PipelineJava&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="visitor" value="interface $VIS$ { void visitar($EA$ e); void visitar($EB$ e); }&#10;interface $ELEM$ { void aceptar($VIS$ v); }&#10;class $EA$ implements $ELEM$ { public void aceptar($VIS$ v) { v.visitar(this); } }&#10;class $EB$ implements $ELEM$ { public void aceptar($VIS$ v) { v.visitar(this); } }&#10;class $CV$ implements $VIS$ {&#10;    public void visitar($EA$ e) { }&#10;    public void visitar($EB$ e) { }&#10;}&#10;$END$" description="Visitor + Element" toReformat="true" toShortenFQNames="true">
+    <variable name="VIS" expression="" defaultValue="&quot;Visitante&quot;" alwaysStopAt="true" />
+    <variable name="EA" expression="" defaultValue="&quot;Perro&quot;" alwaysStopAt="true" />
+    <variable name="EB" expression="" defaultValue="&quot;Gato&quot;" alwaysStopAt="true" />
+    <variable name="ELEM" expression="" defaultValue="&quot;Mascota&quot;" alwaysStopAt="true" />
+    <variable name="CV" expression="" defaultValue="&quot;CalculoDosis&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="caso" value="System.out.println(&quot;=== Caso $N$ · Req. $R$ ($PAT$) ===&quot;);&#10;$END$" description="Encabezado de caso en main" toReformat="true" toShortenFQNames="true">
+    <variable name="N" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true" />
+    <variable name="R" expression="" defaultValue="&quot;1&quot;" alwaysStopAt="true" />
+    <variable name="PAT" expression="" defaultValue="&quot;Patrón&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="pmain" value="public class Main {&#10;    public static void main(String[] args) {&#10;        $END$&#10;    }&#10;}" description="Main.java vacío con main" toReformat="true" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+</templateSet>
