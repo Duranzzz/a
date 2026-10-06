@@ -1,8 +1,10 @@
-# Instala PatronesGoF.xml en la carpeta de configuracion de IntelliJ IDEA.
-# El script y el XML deben estar en la misma carpeta (Descargas).
+# Instala PatronesGoF.xml en IntelliJ IDEA y despues borra los 3 archivos
+# (PatronesGoF.xml, instalar_plantillas.ps1 e instalar_plantillas.bat). Sin papelera.
+param([switch]$DesdeBat)
 $ErrorActionPreference = 'Stop'
 
 $xml = Join-Path $PSScriptRoot 'PatronesGoF.xml'
+$bat = Join-Path $PSScriptRoot 'instalar_plantillas.bat'
 if (-not (Test-Path -LiteralPath $xml)) {
     Write-Host "No encuentro PatronesGoF.xml en: $PSScriptRoot" -ForegroundColor Red
     exit 1
@@ -31,7 +33,7 @@ if (-not $cfg) {
 }
 
 if (Get-Process -Name 'idea64' -ErrorAction SilentlyContinue) {
-    Write-Host "AVISO: IntelliJ esta abierto. Cierralo y vuelve a abrirlo despues para ver las plantillas." -ForegroundColor Yellow
+    Write-Host "AVISO: IntelliJ esta abierto. Cierralo y vuelve a abrirlo para ver las plantillas." -ForegroundColor Yellow
 }
 
 $tpl = Join-Path $cfg.Path 'templates'
@@ -44,6 +46,22 @@ $dest = Join-Path $tpl 'PatronesGoF.xml'
 $existia = Test-Path -LiteralPath $dest
 Copy-Item -LiteralPath $xml -Destination $dest -Force
 
+# Solo se borra si la copia quedo identica al original
+if ((Get-FileHash -LiteralPath $xml).Hash -ne (Get-FileHash -LiteralPath $dest).Hash) {
+    Write-Host "La copia no coincide con el original. No se borro nada." -ForegroundColor Red
+    exit 1
+}
+
 if ($existia) { Write-Host "Plantillas reemplazadas en: $dest" -ForegroundColor Green }
 else          { Write-Host "Plantillas instaladas en: $dest" -ForegroundColor Green }
 Write-Host "Reinicia IntelliJ y revisa Settings > Editor > Live Templates > Patrones GoF."
+
+# Borrado definitivo (Remove-Item no usa la papelera)
+Remove-Item -LiteralPath $xml -Force
+if (-not $DesdeBat) {
+    # Si se ejecuto el .ps1 directamente, tambien se borra el .bat
+    if (Test-Path -LiteralPath $bat) { Remove-Item -LiteralPath $bat -Force }
+}
+Remove-Item -LiteralPath $PSCommandPath -Force
+Write-Host "Archivos de instalacion eliminados." -ForegroundColor Green
+exit 0
