@@ -1,5 +1,6 @@
 # Instala PatronesGoF.xml en IntelliJ IDEA y despues borra los 3 archivos
 # (PatronesGoF.xml, instalar_plantillas.ps1 e instalar_plantillas.bat). Sin papelera.
+# Si estan dentro de Descargas\design_patterns-main\..., borra tambien esas carpetas y el .zip.
 param([switch]$DesdeBat)
 $ErrorActionPreference = 'Stop'
 
@@ -55,6 +56,45 @@ if ((Get-FileHash -LiteralPath $xml).Hash -ne (Get-FileHash -LiteralPath $dest).
 if ($existia) { Write-Host "Plantillas reemplazadas en: $dest" -ForegroundColor Green }
 else          { Write-Host "Plantillas instaladas en: $dest" -ForegroundColor Green }
 Write-Host "Reinicia IntelliJ y revisa Settings > Editor > Live Templates > Patrones GoF."
+
+# --- Limpieza de la descarga de GitHub (solo si esta dentro de Descargas/Downloads) ---
+# Estructura esperada: <Descargas>\design_patterns-main.zip  y  <Descargas>\design_patterns-main\design_patterns-main\
+# Windows no distingue mayusculas de minusculas, por eso las comparaciones lo ignoran.
+$aBorrar = $null   # carpeta de primer nivel dentro de Descargas (la externa)
+$zip = $null
+$candidatos = @()
+try { $candidatos += (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path } catch {}
+$candidatos += (Join-Path $env:USERPROFILE 'Downloads')
+$candidatos += (Join-Path $env:USERPROFILE 'Descargas')
+$aqui = $PSScriptRoot.TrimEnd('\')
+foreach ($c in $candidatos) {
+    if (-not $c) { continue }
+    $dl = $c.TrimEnd('\')
+    if ($aqui.StartsWith($dl + '\', [System.StringComparison]::OrdinalIgnoreCase)) {
+        $primero = $aqui.Substring($dl.Length + 1).Split('\')[0]
+        if ($primero -ieq 'design_patterns-main') {
+            $aBorrar = Join-Path $dl $primero
+            $zip = Join-Path $dl 'design_patterns-main.zip'
+        }
+        break
+    }
+}
+
+if ($aBorrar -or $zip) {
+    # Un proceso aparte (oculto) espera a que este script y el .bat terminen y luego borra
+    # la carpeta (los dos niveles) y el .zip, porque una carpeta en uso no se puede borrar.
+    function Q([string]$t) { return "'" + $t.Replace("'", "''") + "'" }
+    $j = 'Start-Sleep -Seconds 2; '
+    if ($aBorrar) {
+        $j += "`$t = $(Q $aBorrar); for (`$i = 0; `$i -lt 20 -and (Test-Path -LiteralPath `$t); `$i++) { Remove-Item -LiteralPath `$t -Recurse -Force -ErrorAction SilentlyContinue; if (Test-Path -LiteralPath `$t) { Start-Sleep -Seconds 1 } }; "
+    }
+    if ($zip) {
+        $j += "Remove-Item -LiteralPath $(Q $zip) -Force -ErrorAction SilentlyContinue"
+    }
+    $enc = [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($j))
+    Start-Process -FilePath 'powershell.exe' -WindowStyle Hidden -WorkingDirectory $env:TEMP `
+        -ArgumentList @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-EncodedCommand', $enc)
+}
 
 # Borrado definitivo (Remove-Item no usa la papelera)
 Remove-Item -LiteralPath $xml -Force
