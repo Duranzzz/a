@@ -1,6 +1,6 @@
 # Instala PatronesGoF.xml en IntelliJ IDEA y despues borra los 3 archivos
 # (PatronesGoF.xml, instalar_plantillas.ps1 e instalar_plantillas.bat). Sin papelera.
-# Si estan dentro de Descargas\design_patterns-main\..., borra tambien esas carpetas y el .zip.
+# Si estan dentro de Descargas\a-main\..., borra tambien esas carpetas y el .zip.
 param([switch]$DesdeBat)
 $ErrorActionPreference = 'Stop'
 
@@ -58,7 +58,7 @@ else          { Write-Host "Plantillas instaladas en: $dest" -ForegroundColor Gr
 Write-Host "Reinicia IntelliJ y revisa Settings > Editor > Live Templates > Patrones GoF."
 
 # --- Limpieza de la descarga de GitHub (solo si esta dentro de Descargas/Downloads) ---
-# Estructura esperada: <Descargas>\design_patterns-main.zip  y  <Descargas>\design_patterns-main\design_patterns-main\
+# Estructura esperada: <Descargas>\a-main.zip  y  <Descargas>\a-main\a-main\
 # Windows no distingue mayusculas de minusculas, por eso las comparaciones lo ignoran.
 $aBorrar = $null   # carpeta de primer nivel dentro de Descargas (la externa)
 $zip = $null
@@ -72,9 +72,9 @@ foreach ($c in $candidatos) {
     $dl = $c.TrimEnd('\')
     if ($aqui.StartsWith($dl + '\', [System.StringComparison]::OrdinalIgnoreCase)) {
         $primero = $aqui.Substring($dl.Length + 1).Split('\')[0]
-        if ($primero -ieq 'design_patterns-main') {
+        if ($primero -ieq 'a-main') {
             $aBorrar = Join-Path $dl $primero
-            $zip = Join-Path $dl 'design_patterns-main.zip'
+            $zip = Join-Path $dl 'a-main.zip'
         }
         break
     }
